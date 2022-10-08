@@ -1,81 +1,63 @@
 import styled from "styled-components";
 import axios from "axios";
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect } from "react";
+import Movies from "./Movies";
 
 
 
 export default function MainPage(props) {
-    const { setImg, img } = props
-    const [tamanho, setTamanho] = useState([])
+    const { setMovieList, movieList } = props
 
     useEffect(() => {
         const promise = axios.get('https://mock-api.driven.com.br/api/v8/cineflex/movies')
 
-        promise.then(res => console.log(res.data))
+        promise.then(response => 
+            setMovieList(response.data)
+            )
            promise.catch(erro => {
                console.log(erro.status);
            });
 	}, []);
    
-    function processPromise(promise){
-        
-        for(let i = 0; i < promise.data.length; i++){
-            setTamanho(promise.data)
-            setImg(promise.data[i].posterURL)
-    }
-}
-function Movies(props){
-    return(
-        <ContainerMovies>
-        <Link to="/sessoes/1">
-              <img src={props.img} onClick={(props) => setMovie(props.id)}/> 
-              </Link>
-        </ContainerMovies>
-    )
-}
-   
+
 
 
     return (
-        <>
-            <Title>
+        <Container>
                 <p>Selecione o filme</p>
-            </Title>
-            {tamanho.map((i) => <Movies img={img}/> )}
+                <ContainerMovies>
+                {movieList.map((m) => <Movies img={m} posterURL={m.posterURL} id={m.id} title={m.title} /> )}
+                </ContainerMovies>
+                
             
-        </>
+        </Container>
     )
 
+    
     }
 
 
-
-
-const Title = styled.div`
-    width: 374px;
-    height: 110px;
-    left: 0px;
-    display: flex;
-    align-items: center;
-    text-align: center;
-    justify-content: center;
-    p{
-        font-family: 'Roboto';
-        font-style: normal;
-        font-weight: 400;
+const Container = styled.div`
+margin-top:100px;
+display:flex;
+flex-direction:column;
+justify-content: center;
+text-align: center;
+p{
+    font-family: 'Roboto';
         font-size: 24px;
-        line-height: 28px;
-
-        letter-spacing: 0.04em;
         color: #293845;}
 `
 
 const ContainerMovies = styled.main`
-    margin-left: 38px;
-    img{
+width: 60%;
+    display: flex;
+    flex-wrap: wrap;
+    margin: 20px auto;
+    justify-content: space-between;
+     img{
         width: 129px;
         height: 193px;
         left: 38px;
-        top: 177px;}
+        top: 177px;} 
 `

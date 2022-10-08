@@ -1,8 +1,10 @@
-import { Link } from "react-router-dom"
+import { Link, useParams } from "react-router-dom"
 import styled from "styled-components"
 
-export default function Sucess(props){
-    const { inputCPF, inputName, hour, date, name} = props
+export default function Success(props){
+    const { inputCPF, inputName, hour, date, name, movieList} = props
+    const { id } = useParams()
+    const index = id - 1
     return(
         <Main>
         <Title>
@@ -10,7 +12,7 @@ export default function Sucess(props){
         </Title>
         <Movie>
             <h1>Filme e sessão</h1>
-            <h2>{name}</h2>
+            <h2>{movieList[index].title}</h2>
             <h2>{date} - {hour}</h2>
         </Movie>
         <Tickets>

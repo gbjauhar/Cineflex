@@ -1,47 +1,48 @@
 import styled from "styled-components"
-import { Link } from "react-router-dom"
+import { Link, useParams } from "react-router-dom"
 import axios from "axios"
 import { useEffect, useState } from "react"
-import Sessions from "./Sessions"
 
 
 export default function MoviePage(props){
+    
 
-    const { setDays, setHour, setDate, setName, name, img } = props
+    const { title, posterURL, movie, setMovie, setMovieList, movieList } = props
+    const { id } = useParams()
+    const indice = id -1 
     useEffect(() => {
-    const promise = axios.get("https://mock-api.driven.com.br/api/v8/cineflex/movies/1/showtimes")
+    const promise = axios.get(`https://mock-api.driven.com.br/api/v8/cineflex/movies/${id}/showtimes`)
     
-    promise.then(processPromise)
+    promise.then(response=> setMovie(response.data.days))
 }, [])
-   
-const [dias, setDias] = useState([])
-    
-    function processPromise(promise){
-        setName(promise.data.title)
-        for(let i = 0; i < promise.data.days.length; i++){
-            setDias(promise.data.days)
-            setDays(promise.data.days[i].weekday)
-            setDate(promise.data.days[i].date)
-            for(let j = 0; j < promise.data.days[i].showtimes.length; j++){
-        setHour(promise.data.days[i].showtimes[j].name)
-    }
-}
-    }
+
     return(
         <>
         <Title>
             Selecione o horário
             </Title>
-            {dias.map ((d) =>
-            <Sessions date={d.date} days={d.days} hour={d.hour}/>)}
+            {movie.map ((m) =>
+            <ContainerSessions>
+            <p>{m.weekday} - {m.date}</p>
+            {m.showtimes.map((f)=>
+                <Botao>
+                    <Link to="/assentos/1">{f.name}
+                    </Link></Botao>
+                )}
+                
+                </ContainerSessions>)}
            <Footer>
-            <img src={img} />
-                <p>{name}</p>
+            <img src={movieList[indice].posterURL}/>
+            
+                <p>{movieList[indice].title}</p>
+                
             </Footer>
+            
             </>
 
     )
 }
+
 
 const Title = styled.div`
     width: 374px;
@@ -90,3 +91,31 @@ height: 72px;
         color: #293845;
     }
 `
+
+const ContainerSessions = styled.div`
+    width: 241px;
+    height: 35px;
+    margin-left: 24px;
+    top: 170px;
+    display: flex;
+    flex-direction: column;
+    p{
+        font-family: 'Roboto';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 20px;
+        line-height: 23px;
+        letter-spacing: 0.02em;
+        color: #293845;
+    }
+    
+`
+
+const Botao = styled.button`
+
+        width: 83px;
+        height: 43px;
+        left: 23px;
+        margin-top:22px;
+        background: #E8833A;
+        border-radius: 3px;`
