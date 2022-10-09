@@ -8,14 +8,14 @@ import Success from "./Success";
 import { useState } from "react";
 
 export default function App() {
-    const [days, setDays] = useState([])
-    const [date, setDate] = useState([])
-    const [hour, setHour] = useState([])
     const [inputName, setInputName] = useState("")
     const [inputCPF, setInputCPF] = useState("")
-    const [name, setName] = useState("")
     const [movieList, setMovieList] = useState([])
     const [movie, setMovie] = useState([])
+    const [movieName, setMovieName] = useState("")
+    const [date, setDate] = useState("")
+    const [hour, setHour] = useState("")
+    
 
     return (
         <BrowserRouter>
@@ -33,13 +33,6 @@ export default function App() {
                 
                 <Route path="/sessoes/:id" 
                 element={<MoviePage 
-                setDays={setDays} 
-                setDate={setDate} 
-                setHour={setHour} 
-                setName={setName} 
-                name={name} 
-                days={days} 
-                date={date}
                 movie={movie}
                 setMovie={setMovie}
                 movieList={movieList}
@@ -50,15 +43,20 @@ export default function App() {
                 setInputName={setInputName} 
                 inputName={inputName} 
                 setInputCPF={setInputCPF} 
-                inputCPF={inputCPF} />}/>
+                inputCPF={inputCPF} 
+                setMovieName={setMovieName}
+                setHour={setHour}
+                setDate={setDate}
+                />}/>
                
                 <Route path="/sucesso" 
                 element={<Success 
                 inputName={inputName} 
                 inputCPF={inputCPF} 
-                hour={hour} 
-                date={date} 
-                name={name}/>}/>
+                date={date}
+                hour={hour}
+                movieName={movieName}
+                />}/>
             </Routes>
         </BrowserRouter>
     )

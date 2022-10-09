@@ -7,6 +7,7 @@ import Movies from "./Movies";
 
 export default function MainPage(props) {
     const { setMovieList, movieList } = props
+    
 
     useEffect(() => {
         const promise = axios.get('https://mock-api.driven.com.br/api/v8/cineflex/movies')
@@ -17,7 +18,7 @@ export default function MainPage(props) {
            promise.catch(erro => {
                console.log(erro.status);
            });
-	}, []);
+	}, [setMovieList]);
    
 
 
@@ -26,7 +27,7 @@ export default function MainPage(props) {
         <Container>
                 <p>Selecione o filme</p>
                 <ContainerMovies>
-                {movieList.map((m) => <Movies img={m} posterURL={m.posterURL} id={m.id} title={m.title} /> )}
+                {movieList.map((m) => <Movies img={m} posterURL={m.posterURL} id={m.id} title={m.title} key={m.id}/> )}
                 </ContainerMovies>
                 
             
@@ -55,9 +56,5 @@ width: 60%;
     flex-wrap: wrap;
     margin: 20px auto;
     justify-content: space-between;
-     img{
-        width: 129px;
-        height: 193px;
-        left: 38px;
-        top: 177px;} 
 `
+

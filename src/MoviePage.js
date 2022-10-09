@@ -1,121 +1,134 @@
 import styled from "styled-components"
 import { Link, useParams } from "react-router-dom"
 import axios from "axios"
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 
 
 export default function MoviePage(props){
     
 
-    const { title, posterURL, movie, setMovie, setMovieList, movieList } = props
+    const { movie, setMovie, movieList } = props
     const { id } = useParams()
     const indice = id -1 
     useEffect(() => {
     const promise = axios.get(`https://mock-api.driven.com.br/api/v8/cineflex/movies/${id}/showtimes`)
     
     promise.then(response=> setMovie(response.data.days))
-}, [])
+    promise.catch(erro => {
+        console.log(erro.status);
+    });
+}, [id, setMovie])
 
     return(
-        <>
-        <Title>
+        <Container>
+        <p>
             Selecione o horário
-            </Title>
+            </p>
             {movie.map ((m) =>
             <ContainerSessions>
             <p>{m.weekday} - {m.date}</p>
+            <ContainerButtons>
             {m.showtimes.map((f)=>
-                <Botao>
-                    <Link to="/assentos/1">{f.name}
-                    </Link></Botao>
+                <Button>
+                    <Link to={`/assentos/${f.id}`}>
+                        <h1>{f.name}</h1>
+                    </Link>
+                </Button>
                 )}
+                </ContainerButtons>
                 
                 </ContainerSessions>)}
            <Footer>
-            <img src={movieList[indice].posterURL}/>
+            <ImageContainer>
+            <img src={movieList[indice].posterURL} alt={movieList[indice].title}/>
+            </ImageContainer>
             
                 <p>{movieList[indice].title}</p>
                 
             </Footer>
             
-            </>
+            </Container>
 
     )
 }
 
-
-const Title = styled.div`
-    width: 374px;
-    height: 110px;
-    left: 0px;
-    top: 67px;
-    display: flex;
-    align-items: center;
-    text-align: center;
-    justify-content: center;
-    p{
+const Container = styled.div`
+margin-top: 100px;
+display: flex;
+align-items: center;
+flex-direction: column;
+p{
         font-family: 'Roboto';
-        font-style: normal;
-        font-weight: 400;
         font-size: 24px;
-        line-height: 28px;
-
-        letter-spacing: 0.04em;
         color: #293845;}
 `
 
+const ContainerSessions = styled.div`
+    display: flex;
+    margin-bottom: 20px;
+    justify-content: center;
+    flex-direction: column;
+    p{
+        font-family: 'Roboto';
+        font-style: normal;
+        font-size: 20px;
+    }
+    
+`
+
+const ContainerButtons = styled.div`
+display: flex;
+margin-top: 20px;
+justify-content: center;
+`
+
+const Button = styled.button`
+        width: 83px;
+        height: 43px;
+        background-color: #E8833A;
+        border-radius: 3px;
+        font-family: 'Roboto';
+        font-size: 18px;
+        color: white;
+        margin-right: 10px;
+        overflow-y: scroll;
+        h1{
+            color:white;
+        }
+`
 
 const Footer = styled.footer`
-    width: 100%;
+    display: flex;
+    position:fixed;
+    align-items: center;
+    bottom: 0%;
     height: 117px;
+    width: 100%;
+    justify-content: flex-start;
     background: #DFE6ED;
     border: 1px solid #9EADBA;
-    display: flex;
-    align-items: center;
-    position:fixed;
-    z-index:99;
-    img{
-        width: 48px;
-height: 72px;
-    }
+    padding: 10px 14px;
     p{
-        width: 169px;
-        height: 40px;
-        left: 88px;
-        bottom: 39px;
+        color: #293845;
         font-family: 'Roboto';
         font-style: normal;
         font-weight: 400;
         font-size: 26px;
         line-height: 30px;
-        color: #293845;
     }
 `
 
-const ContainerSessions = styled.div`
-    width: 241px;
-    height: 35px;
-    margin-left: 24px;
-    top: 170px;
-    display: flex;
-    flex-direction: column;
-    p{
-        font-family: 'Roboto';
-        font-style: normal;
-        font-weight: 400;
-        font-size: 20px;
-        line-height: 23px;
-        letter-spacing: 0.02em;
-        color: #293845;
-    }
-    
+const ImageContainer = styled.div`
+width: 64px;
+height: 89px;
+background-color: white;
+display: flex;
+align-items: center;
+justify-content: center;
+margin-right: 15px;
+img{
+width: 48px;
+height: 72px;}
 `
 
-const Botao = styled.button`
 
-        width: 83px;
-        height: 43px;
-        left: 23px;
-        margin-top:22px;
-        background: #E8833A;
-        border-radius: 3px;`

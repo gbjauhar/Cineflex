@@ -2,17 +2,14 @@ import { Link, useParams } from "react-router-dom"
 import styled from "styled-components"
 
 export default function Success(props){
-    const { inputCPF, inputName, hour, date, name, movieList} = props
+    const { inputCPF, inputName, hour, date, movieName } = props
     const { id } = useParams()
-    const index = id - 1
     return(
         <Main>
-        <Title>
             <p>Pedido feito com sucesso!</p>
-        </Title>
         <Movie>
             <h1>Filme e sessão</h1>
-            <h2>{movieList[index].title}</h2>
+            <h2>{movieName}</h2>
             <h2>{date} - {hour}</h2>
         </Movie>
         <Tickets>
@@ -33,25 +30,25 @@ export default function Success(props){
     )
 }
 
+const Main = styled.main`
+margin-top: 100px;
+display: flex;
+align-items: center;
+flex-direction: column;
+p{
+    font-family: 'Roboto';
+    font-size: 24px;
+    color: #293845;
+    margin-bottom: 14px;
 
-const Title = styled.div`
-    width: 374px;
-    height: 110px;
-    left: 0px;
-    top: 67px;
-    display: flex;
-    align-items: center;
-    text-align: center;
-    justify-content: center;
-    p{
-        font-family: 'Roboto';
-        font-style: normal;
-        font-weight: 400;
-        font-size: 24px;
-        line-height: 28px;
-
-        letter-spacing: 0.04em;
-        color: #293845;}
+}
+button{
+        width: 83px;
+        height: 43px;
+        left: 23px;
+        margin-top:22px;
+        background: #E8833A;
+        border-radius: 3px;}
 `
 
 const Movie = styled.div`
@@ -120,13 +117,5 @@ letter-spacing: 0.04em;
 color: #293845;}
 `
 
-const Main = styled.main`
-button{
-        width: 83px;
-        height: 43px;
-        left: 23px;
-        margin-top:22px;
-        background: #E8833A;
-        border-radius: 3px;}
-`
+
 

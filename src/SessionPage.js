@@ -1,82 +1,105 @@
 import styled from "styled-components"
 import axios from "axios"
 import { Link, useParams } from "react-router-dom"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 export default function SessionPage(props) {
-    const { setInputName, setInputCPF } = props
-    const [seats, setSeats] = useState([])
+    const { setInputName, setInputCPF, setMovieName, setHour, setDate} = props
+    const posterURL = "", title = "", weekday = "", date = ""
+    const [arraySeats, setArraySeats] = useState({
+        day:[weekday, date],
+        seats:[],
+        movie: [posterURL, title]})
     const { id } = useParams();
-    const promise = axios.get(`https://mock-api.driven.com.br/api/v8/cineflex/showtimes/${id}/seats`)
-    promise.then(res => setSeats(res.data.seats))
-    function Seats(props){
-        return(
-            <ContainerSeats>
-                <button>{props.id}</button>
-            </ContainerSeats>
-            
-        )
+    useEffect(() => {
+        const promise = axios.get(`https://mock-api.driven.com.br/api/v8/cineflex/showtimes/${id}/seats`)
+
+        promise.then(response => setArraySeats(response.data))
+        promise.catch(erro => {
+            console.log(erro.status);
+        });
+    })
+
+    function setMovieInfo(){
+        setMovieName(arraySeats.movie.title)
+        setDate(arraySeats.day.date)
+        setHour(arraySeats.name)
     }
+
+    setMovieInfo()
     return (
-        <>
-            <Title>
-                <p>Selecione os assentos</p>
-            </Title>
-            {seats.map((s) => <Seats id={s.id}/>)}
-            <Caption>
-                <Verde></Verde>
-                <Cinza></Cinza>
-                <Amarelo></Amarelo>
-            </Caption>
+        <Container>
+            <p>Selecione os assentos</p>
+            <ContainerSeats>
+                <SeatsList> 
+                    {arraySeats.seats.map((s) => <button key={s.id}>{s.name}</button>)}
+                </SeatsList>
+                <Caption>
+                    <Verde></Verde>
+                    <Cinza></Cinza>
+                    <Amarelo></Amarelo>
+                </Caption>
+            </ContainerSeats>
             <Info>
-            <h1>Nome do comprador:</h1>
-            <input
-                placeholder="Digite seu nome..." 
-                onChange={(event) => setInputName(event.target.value)}/>
-            <h2>CPF do comprador:</h2>
-            <input
-                placeholder="Digite seu CPF.." 
-                 onChange={(event) => setInputCPF(event.target.value)} />
-                </Info>
-                <Link to="/sucesso">
-                    <button>Reservar assento(s)</button>
-                    </Link>
-        </>
+                <h1>Nome do comprador:</h1>
+                <input
+                    placeholder="Digite seu nome..."
+                    onChange={(event) => setInputName(event.target.value)} />
+                <h2>CPF do comprador:</h2>
+                <input
+                    placeholder="Digite seu CPF.."
+                    onChange={(event) => setInputCPF(event.target.value)} />
+            </Info>
+            <Link to="/sucesso">
+                <button>Reservar assento(s)</button>
+            </Link>
+           <Footer>
+            <ImageContainer>
+            <img src={arraySeats.movie.posterURL} alt={arraySeats.movie.title}/>
+            </ImageContainer>
+            <p>{arraySeats.movie.title}</p>
+            <p>{arraySeats.day.weekday} - {arraySeats.day.date}</p>
+           </Footer>
+
+        </Container>
     )
 }
 
-const Title = styled.div`
-    width: 374px;
-    height: 110px;
-    left: 0px;
-    top: 67px;
-    display: flex;
-    align-items: center;
-    text-align: center;
-    justify-content: center;
-    p{
-        font-family: 'Roboto';
-        font-style: normal;
-        font-weight: 400;
-        font-size: 24px;
-        line-height: 28px;
 
-        letter-spacing: 0.04em;
-        color: #293845;}
+const Container = styled.div`
+margin-top: 100px;
+display: flex;
+align-items: center;
+flex-direction: column;
+p{
+        font-family: 'Roboto';
+        font-size: 24px;
+        color: #293845;
+        margin-bottom: 14px;}
 `
 
 const ContainerSeats = styled.div`
     display:flex;
     justify-content: space-evenly;
     align-items: center;
-    button{
+    flex-wrap: wrap;
+    flex-direction: column;
+    
+    `
+
+const SeatsList = styled.div`
+display: flex;
+flex-wrap: wrap;
+justify-content: space-evenly;
+    align-items: center;
+button{
         width: 26px;
 height: 26px;
 background: #C3CFD9;
 border: 1px solid #808F9D;
 border-radius: 12px;
     }
-    `
+`
 
 const Caption = styled.div`
     display: flex;
@@ -143,19 +166,41 @@ color: #AFAFAF;
     }
     }`
 
-    const Reservar = styled.button`
-    width: 225px;
-height: 42px;
-left: 72px;
-top: 688px;
 
-background: #E8833A;
-border-radius: 3px;
-font-family: 'Roboto';
-font-style: normal;
-font-weight: 400;
-font-size: 18px;
-line-height: 21px;
-letter-spacing: 0.04em;
 
-color: #FFFFFF;`
+const Footer = styled.footer`
+    display: flex;
+    position:fixed;
+    align-items: center;
+    bottom: 0%;
+    width: 100%;
+    height: 117px;
+    justify-content: flex-start;
+    background: #DFE6ED;
+    border: 1px solid #9EADBA;
+    box-sizing: border-box;
+    padding: 10px 14px;
+
+    p{
+        font-family: 'Roboto';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 26px;
+        line-height: 30px;
+        color: #293845;
+    }
+`
+
+const ImageContainer = styled.div`
+width: 64px;
+height: 89px;
+background-color: white;
+display: flex;
+align-items: center;
+justify-content: center;
+margin-right: 15px;
+    img{
+        width: 48px;
+height: 72px;
+    }
+`
