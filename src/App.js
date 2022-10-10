@@ -15,6 +15,7 @@ export default function App() {
     const [movieName, setMovieName] = useState("")
     const [date, setDate] = useState("")
     const [hour, setHour] = useState("")
+    const [nameSeats, setNameSeats] = useState([])
     
 
     return (
@@ -26,8 +27,6 @@ export default function App() {
             <Routes>
                 <Route path="/" 
                 element={<MainPage 
-                movie={movie}
-                setMovie={setMovie} 
                 movieList={movieList}
                 setMovieList={setMovieList}/>} />
                 
@@ -47,6 +46,8 @@ export default function App() {
                 setMovieName={setMovieName}
                 setHour={setHour}
                 setDate={setDate}
+                nameSeats={nameSeats}
+                setNameSeats={setNameSeats}
                 />}/>
                
                 <Route path="/sucesso" 
@@ -56,6 +57,8 @@ export default function App() {
                 date={date}
                 hour={hour}
                 movieName={movieName}
+                nameSeats={nameSeats}
+                setNameSeats={setNameSeats}
                 />}/>
             </Routes>
         </BrowserRouter>

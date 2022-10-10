@@ -11,7 +11,7 @@ export default function MoviePage(props){
     const { id } = useParams()
     const indice = id -1 
     useEffect(() => {
-    const promise = axios.get(`https://mock-api.driven.com.br/api/v8/cineflex/movies/${id}/showtimes`)
+    const promise = axios.get(`https://mock-api.driven.com.br/api/v5/cineflex/movies/${id}/showtimes`)
     
     promise.then(response=> setMovie(response.data.days))
     promise.catch(erro => {
@@ -25,11 +25,11 @@ export default function MoviePage(props){
             Selecione o horário
             </p>
             {movie.map ((m) =>
-            <ContainerSessions>
+            <ContainerSessions key={m.id}>
             <p>{m.weekday} - {m.date}</p>
             <ContainerButtons>
             {m.showtimes.map((f)=>
-                <Button>
+                <Button key={f.id}>
                     <Link to={`/assentos/${f.id}`}>
                         <h1>{f.name}</h1>
                     </Link>

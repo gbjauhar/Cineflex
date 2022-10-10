@@ -10,7 +10,7 @@ export default function MainPage(props) {
     
 
     useEffect(() => {
-        const promise = axios.get('https://mock-api.driven.com.br/api/v8/cineflex/movies')
+        const promise = axios.get('https://mock-api.driven.com.br/api/v5/cineflex/movies')
 
         promise.then(response => 
             setMovieList(response.data)
@@ -27,7 +27,13 @@ export default function MainPage(props) {
         <Container>
                 <p>Selecione o filme</p>
                 <ContainerMovies>
-                {movieList.map((m) => <Movies img={m} posterURL={m.posterURL} id={m.id} title={m.title} key={m.id}/> )}
+                {movieList.map((m) => 
+                <Movies 
+                img={m} 
+                posterURL={m.posterURL} 
+                id={m.id} 
+                title={m.title} 
+                key={m.id}/> )}
                 </ContainerMovies>
                 
             
