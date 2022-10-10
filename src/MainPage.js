@@ -29,6 +29,7 @@ export default function MainPage(props) {
                 <ContainerMovies>
                 {movieList.map((m) => 
                 <Movies 
+                data-identifier="movie-outdoor"
                 img={m} 
                 posterURL={m.posterURL} 
                 id={m.id} 

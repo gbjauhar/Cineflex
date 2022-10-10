@@ -26,12 +26,12 @@ export default function MoviePage(props){
             </p>
             {movie.map ((m) =>
             <ContainerSessions key={m.id}>
-            <p>{m.weekday} - {m.date}</p>
+            <p data-identifier="session-date">{m.weekday} - {m.date}</p>
             <ContainerButtons>
             {m.showtimes.map((f)=>
                 <Button key={f.id}>
                     <Link to={`/assentos/${f.id}`}>
-                        <h1>{f.name}</h1>
+                        <h1 data-identifier="hour-minute-btn">{f.name}</h1>
                     </Link>
                 </Button>
                 )}
@@ -40,10 +40,10 @@ export default function MoviePage(props){
                 </ContainerSessions>)}
            <Footer>
             <ImageContainer>
-            <img src={movieList[indice].posterURL} alt={movieList[indice].title}/>
+            <img  data-identifier="movie-img-preview" src={movieList[indice].posterURL} alt={movieList[indice].title}/>
             </ImageContainer>
             
-                <p>{movieList[indice].title}</p>
+                <p data-identifier="movie-and-session-infos-preview">{movieList[indice].title}</p>
                 
             </Footer>
             

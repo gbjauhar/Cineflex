@@ -11,15 +11,15 @@ export default function Success(props){
         <Main>
             <p>Pedido feito<br/> com sucesso!</p>
             <h1>Filme e sessão</h1>
-            <h2>{movieName}</h2>
-            <h2>{date} - {hour}</h2>
+            <h2 data-identifier="movie-session-infos-reserve-finished">{movieName}</h2>
+            <h2 data-identifier="movie-session-infos-reserve-finished">{date} - {hour}</h2>
             <h1>Ingressos</h1>
-            {nameSeats.map((s) => <h2 key={s}>Assento {s}</h2> )}
+            {nameSeats.map((s) => <h2 data-identifier="seat-infos-reserve-finished" key={s}>Assento {s}</h2> )}
             <h1>Comprador</h1>
-            <h2>Nome: {inputName}</h2>
-            <h2>CPF: {inputCPF}</h2>
+            <h2 data-identifier="buyer-infos-reserve-finished">Nome: {inputName}</h2>
+            <h2 data-identifier="buyer-infos-reserve-finished">CPF: {inputCPF}</h2>
         <Link to="/">
-        <button onClick={() => setNameSeats([])}>Voltar para home</button>
+        <button data-identifier="back-to-home-btn" onClick={() => setNameSeats([])}>Voltar para home</button>
         </Link>
         
         </Main>

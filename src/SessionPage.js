@@ -52,6 +52,7 @@ function processPromise(){
                 <SeatsList>
                 {arraySeats.seats.map((s) => 
                 <Seat 
+                data-identifier="seat"
                 id={s.id} 
                 name={s.name} 
                 isAvailable={s.isAvailable} 
@@ -63,25 +64,27 @@ function processPromise(){
                 </SeatsList>
                     
                 <Caption>
-                    <Verde></Verde><h1>Assento selecionado</h1>
-                    <Cinza></Cinza><h1>Assento indisponível</h1>
-                    <Amarelo></Amarelo><h1>Assento ocupado</h1>
+                    <Verde data-identifier="seat-selected-subtitle"></Verde><h1>Assento selecionado</h1>
+                    <Cinza data-identifier="seat-available-subtitle"></Cinza><h1>Assento disponível</h1>
+                    <Amarelo data-identifier="seat-unavailable-subtitle"></Amarelo><h1>Assento ocupado</h1>
                 </Caption>
             </ContainerSeats>
             <Info>
-                <h1>Nome do comprador:</h1>
+                <h1 >Nome do comprador:</h1>
                 <input
+                data-identifier="buyer-name-input"
                     placeholder="Digite seu nome..."
                     type="text"
                     onChange={(event) => setInputName(event.target.value)}/>
                <h1>Nome do comprador:</h1>
                 <input
+                data-identifier="buyer-cpf-input"
                     placeholder="Digite seu CPF.."
                     type="text"
                     onChange={(event) => setInputCPF(event.target.value)}/>
             </Info>
             <Link to="/sucesso">
-                <button onClick={processPromise}>Reservar assento(s)</button>
+                <button data-identifier="reservation-btn" onClick={processPromise}>Reservar assento(s)</button>
             </Link>
            <Footer>
             <ImageContainer>
