@@ -76,7 +76,7 @@ function processPromise(){
                     placeholder="Digite seu nome..."
                     type="text"
                     onChange={(event) => setInputName(event.target.value)}/>
-               <h1>Nome do comprador:</h1>
+               <h1>CPF do comprador:</h1>
                 <input
                 data-identifier="buyer-cpf-input"
                     placeholder="Digite seu CPF.."
